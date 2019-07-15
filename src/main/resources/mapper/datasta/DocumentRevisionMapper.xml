@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gzw.dao.datasta.DocumentRevisionDao">
+	<resultMap id="documentRevisionInfoMap"
+		type="com.gzw.entity.datasta.DocumentRevision">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="revisionDate" property="revisionDate"
+			jdbcType="VARCHAR" />
+		<result column="changeContent" property="changeContent"
+			jdbcType="VARCHAR" />
+		<result column="modifier" property="modifier"
+			jdbcType="VARCHAR" />
+		<result column="modifierId" property="modifierId"
+			jdbcType="VARCHAR" />
+		<result column="reviewer" property="reviewer"
+			jdbcType="VARCHAR" />
+		<result column="reviewerId" property="reviewerId"
+			jdbcType="VARCHAR" />
+		<result column="remark" property="remark"
+			jdbcType="VARCHAR" />
+		
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="createPersonName" property="createPersonName"
+			jdbcType="VARCHAR" />
+		<result column="createPersonId" property="createPersonId"
+			jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate"
+			jdbcType="VARCHAR" />
+		<result column="lastModifyPersonId"
+			property="lastModifyPersonId" jdbcType="VARCHAR" />
+		<result column="lastModifyPersonName"
+			property="lastModifyPersonName" jdbcType="VARCHAR" />
+		<result column="lastModifyDate" property="lastModifyDate"
+			jdbcType="VARCHAR" />
+		<result column="isDel" property="isDel" jdbcType="BIT" />
+
+	</resultMap>
+	<!-- 删除信息 -->
+	<update id="deleteDocumentRevisionInfoById"
+		parameterType="java.lang.Integer">
+		update document_revision t
+		<set>isDel=1
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 根据查询条件获取产权基本信息列表 -->
+	<select id="getDocumentRevisionInfoByConditions"
+		resultMap="documentRevisionInfoMap"
+		parameterType="com.gzw.entity.datasta.DocumentRevision">
+		select * from document_revision t 
+		<where>
+			<!-- t.isDel = 0 and t.isHistory = '0' and t.isLastest = '1' -->
+			<if test="changeContent != null and  changeContent != ''">
+				<bind name="changeContent" value="'%' + changeContent + '%'" />
+				and t.changeContent like #{changeContent}
+			</if>
+			<if test="revisionDate != null and  revisionDate != ''">
+				<bind name="revisionDate" value="revisionDate" />
+				and t.revisionDate = #{revisionDate}
+			</if>
+			<if test="isDel != null">
+				<bind name="isDel" value="isDel" />
+				and t.isDel = #{isDel}
+			</if>
+		</where>
+		<!-- order by t.createDate DESC -->
+		order by t.id ASC 
+	</select>
+
+	<!-- 根据ID查找信息 -->
+	<select id="getDocumentRevisionInfoById"
+		resultMap="documentRevisionInfoMap" parameterType="java.lang.Integer">
+		select * from
+		document_revision t where t.id = #{id} and t.isDel = 0
+	</select>
+
+<!-- 
+	<select id="getDocumentRevisionExistCheck" resultMap="DocumentRevisionInfoMap"
+		parameterType="com.gzw.entity.datasta.DocumentRevision">
+		select * from
+		document_revision t
+		<where>
+			t.isDel = 0
+			<if test="staCategory != null and  staCategory != ''">
+				<bind name="staCategory" value="staCategory" />
+				and t.staCategory = #{staCategory}
+			</if>
+			<if test="DocumentRevisionNum != null and  DocumentRevisionNum != ''">
+				<bind name="DocumentRevisionNum" value="DocumentRevisionNum" />
+				and t.DocumentRevisionNum = #{DocumentRevisionNum}
+			</if>
+			<if test="id != null and  id != ''">
+				<bind name="id" value="id" />
+				and t.id != #{id}
+			</if>
+		</where>
+	</select> -->
+
+	<!-- 添加信息 -->
+	<insert id="addDocumentRevisionInfo" useGeneratedKeys="true"
+		keyProperty="id"
+		parameterType="com.gzw.entity.datasta.DocumentRevision">
+		insert into document_revision
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="revisionDate != null">
+				revisionDate,
+			</if>
+			<if test="changeContent != null">
+				changeContent,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			<if test="modifierId != null">
+				modifierId,
+			</if>
+			<if test="reviewer != null">
+				reviewer,
+			</if>
+			<if test="reviewerId != null">
+				reviewerId,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+		
+			<if test="createPersonName != null">
+				createPersonName,
+			</if>
+			<if test="createPersonId != null">
+				createPersonId,
+			</if>
+			<if test="createDate != null">
+				createDate,
+			</if>
+			<if test="lastModifyPersonId != null">
+				lastModifyPersonId,
+			</if>
+			<if test="lastModifyPersonName != null">
+				lastModifyPersonName,
+			</if>
+			<if test="lastModifyDate != null">
+				lastModifyDate,
+			</if>
+			<if test="isDel != null">
+				isDel
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="revisionDate != null">
+				#{revisionDate},
+			</if>
+			<if test="changeContent != null">
+				#{changeContent},
+			</if>
+			<if test="modifier != null">
+				#{modifier},
+			</if>
+			<if test="modifierId != null">
+				#{modifierId},
+			</if>
+			<if test="reviewer != null">
+				#{reviewer},
+			</if>
+			<if test="reviewerId != null">
+				#{reviewerId},
+			</if>
+			<if test="remark != null">
+				#{remark},
+			</if>
+			
+			<if test="version != null">
+				#{version},
+			</if>
+
+			<if test="createPersonName != null">
+				#{createPersonName},
+			</if>
+			<if test="createPersonId != null">
+				#{createPersonId},
+			</if>
+			<if test="createDate != null">
+				#{createDate},
+			</if>
+			<if test="lastModifyPersonId != null">
+				#{lastModifyPersonId},
+			</if>
+			<if test="lastModifyPersonName != null">
+				#{lastModifyPersonName},
+			</if>
+			<if test="lastModifyDate != null">
+				#{lastModifyDate},
+			</if>
+			<if test="isDel != null">
+				#{isDel}
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 修改信息 -->
+	<update id="updateDocumentRevisionInfoById"
+		parameterType="com.gzw.entity.datasta.DocumentRevision">
+		update document_revision
+		<set>
+			<if test="revisionDate != null">
+				revisionDate = #{revisionDate},
+			</if>
+			<if test="changeContent != null">
+				changeContent = #{changeContent},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="modifierId != null">
+				modifierId = #{modifierId},
+			</if>
+			<if test="reviewer != null">
+				reviewer = #{reviewer},
+			</if>
+			<if test="reviewerId != null">
+				reviewerId = #{reviewerId},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+			
+			<if test="version != null">
+				version = #{version},
+			</if>			
+			<if test="createPersonName != null">
+				createPersonName = #{createPersonName},
+			</if>
+			<if test="createPersonId != null">
+				createPersonId = #{createPersonId},
+			</if>
+			<if test="createDate != null">
+				createDate = #{createDate},
+			</if>
+			<if test="lastModifyPersonId != null">
+				lastModifyPersonId = #{lastModifyPersonId},
+			</if>
+			<if test="lastModifyPersonName != null">
+				lastModifyPersonName = #{lastModifyPersonName},
+			</if>
+			<if test="lastModifyDate != null">
+				lastModifyDate = #{lastModifyDate},
+			</if>
+			<if test="isDel != null">
+				isDel = #{isDel},
+			</if>
+			
+		</set>
+		where id = #{id}
+	</update>
+</mapper>

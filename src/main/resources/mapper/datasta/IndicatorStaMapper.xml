@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gzw.dao.datasta.IndicatorStaDao">
+	<resultMap id="indicatorStaInfoMap"
+		type="com.gzw.entity.datasta.IndicatorSta">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="staCategory" property="staCategory"
+			jdbcType="VARCHAR" />
+		<result column="indicatorStaNum" property="indicatorStaNum"
+			jdbcType="VARCHAR" />
+		<result column="staTheme" property="staTheme"
+			jdbcType="VARCHAR" />
+		<result column="staClass" property="staClass"
+			jdbcType="VARCHAR" />
+		<result column="staSubclass" property="staSubclass"
+			jdbcType="VARCHAR" />
+		<result column="indicatorCname" property="indicatorCname"
+			jdbcType="VARCHAR" />
+		<result column="indicatorCalias" property="indicatorCalias"
+			jdbcType="VARCHAR" />
+		<result column="indicatorEname" property="indicatorEname"
+			jdbcType="VARCHAR" />
+		<result column="relevantIndicatorSta"
+			property="relevantIndicatorSta" jdbcType="VARCHAR" />
+		<result column="relevantBasicDataSta"
+			property="relevantBasicDataSta" jdbcType="VARCHAR" />
+		<result column="businessDefinition"
+			property="businessDefinition" jdbcType="VARCHAR" />
+		<result column="statisticalCaliber"
+			property="statisticalCaliber" jdbcType="VARCHAR" />
+		<result column="businessRules" property="businessRules"
+			jdbcType="VARCHAR" />
+		<result column="publicStatisticalRules"
+			property="publicStatisticalRules" jdbcType="VARCHAR" />
+		<result column="indicatorFormat" property="indicatorFormat"
+			jdbcType="VARCHAR" />
+		<result column="commonUnit" property="commonUnit"
+			jdbcType="VARCHAR" />
+		<result column="dataLength" property="dataLength"
+			jdbcType="VARCHAR" />
+		<result column="ranges" property="ranges" jdbcType="VARCHAR" />
+		<result column="valueAccuracy" property="valueAccuracy"
+			jdbcType="VARCHAR" />
+		<result column="authoritativeSystemSource"
+			property="authoritativeSystemSource" jdbcType="VARCHAR" />
+		<result column="basisMaking" property="basisMaking"
+			jdbcType="VARCHAR" />
+		<result column="staResponsibilityDepartment"
+			property="staResponsibilityDepartment" jdbcType="INTEGER" />
+		<result column="minGenerationFrequency"
+			property="minGenerationFrequency" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="createPersonName" property="createPersonName"
+			jdbcType="VARCHAR" />
+		<result column="createPersonId" property="createPersonId"
+			jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate"
+			jdbcType="VARCHAR" />
+		<result column="lastModifyPersonId"
+			property="lastModifyPersonId" jdbcType="VARCHAR" />
+		<result column="lastModifyPersonName"
+			property="lastModifyPersonName" jdbcType="VARCHAR" />
+		<result column="lastModifyDate" property="lastModifyDate"
+			jdbcType="VARCHAR" />
+		<result column="isDel" property="isDel" jdbcType="BIT" />
+
+	</resultMap>
+	<!-- 删除信息 -->
+	<update id="deleteIndicatorStaInfoById"
+		parameterType="java.lang.Integer">
+		update indicator_standard set isDel = 1 
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 根据查询条件获取产权基本信息列表 -->
+	<select id="getIndicatorStaInfoByConditions"
+		resultMap="indicatorStaInfoMap"
+		parameterType="com.gzw.entity.datasta.IndicatorSta">
+		select * from indicator_standard t 
+		<where>	
+			<!-- t.isDel = 0  -->	
+			<if test="staCategory != null and  staCategory != ''">
+				<bind name="staCategory" value="'%' + staCategory + '%'" />
+				 t.staCategory like #{staCategory} 
+			</if>
+			<if test="indicatorStaNum != null and  indicatorStaNum != ''">
+				<bind name="indicatorStaNum" value="indicatorStaNum" />
+				and t.indicatorStaNum = #{indicatorStaNum} 
+			</if>
+			<if test="isDel != null">
+				<bind name="isDel" value="isDel" />
+				and t.isDel = #{isDel}
+			</if>
+		</where>
+		<!-- order by t.createDate DESC -->
+		order by t.id ASC 
+	</select>
+
+	<!-- 根据ID查找信息 -->
+	<select id="getIndicatorStaInfoById"
+		resultMap="indicatorStaInfoMap" parameterType="java.lang.Integer">
+		select * from
+		indicator_standard t where t.id = #{id} and t.isDel = 0
+	</select>
+
+	<!-- 检查是否存在重复 -->
+	<select id="getIndicatorStaExistCheck" resultMap="indicatorStaInfoMap"
+		parameterType="com.gzw.entity.datasta.IndicatorSta">
+		select * from
+		indicator_standard t
+		<where>
+			t.isDel = 0
+			<if test="staCategory != null and  staCategory != ''">
+				<bind name="staCategory" value="staCategory" />
+				and t.staCategory = #{staCategory}
+			</if>
+			<if test="indicatorStaNum != null and  indicatorStaNum != ''">
+				<bind name="indicatorStaNum" value="indicatorStaNum" />
+				and t.indicatorStaNum = #{indicatorStaNum}
+			</if>
+		</where>
+	</select>
+
+	<!-- 添加信息 -->
+	<insert id="addIndicatorStaInfo" useGeneratedKeys="true"
+		keyProperty="id"
+		parameterType="com.gzw.entity.datasta.IndicatorSta">
+		insert into indicator_standard
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="staCategory != null">
+				staCategory,
+			</if>
+			<if test="indicatorStaNum != null">
+				indicatorStaNum,
+			</if>
+			<if test="staTheme != null">
+				staTheme,
+			</if>
+			<if test="staClass != null">
+				staClass,
+			</if>
+			<if test="staSubclass != null">
+				staSubclass,
+			</if>
+			<if test="indicatorCname != null">
+				indicatorCname,
+			</if>
+			<if test="indicatorCalias != null">
+				indicatorCalias,
+			</if>
+			<if test="indicatorEname != null">
+				indicatorEname,
+			</if>
+			<if test="relevantIndicatorSta != null">
+				relevantIndicatorSta,
+			</if>
+			<if test="relevantBasicDataSta != null">
+				relevantBasicDataSta,
+			</if>
+			<if test="businessDefinition != null">
+				businessDefinition,
+			</if>
+			<if test="statisticalCaliber != null">
+				statisticalCaliber,
+			</if>
+			<if test="businessRules != null">
+				businessRules,
+			</if>
+			<if test="publicStatisticalRules != null">
+				publicStatisticalRules,
+			</if>
+			<if test="indicatorFormat != null">
+				indicatorFormat,
+			</if>
+			<if test="commonUnit != null">
+				commonUnit,
+			</if>
+			<if test="dataLength != null">
+				dataLength,
+			</if>
+			<if test="ranges != null">
+				ranges,
+			</if>
+			<if test="valueAccuracy != null">
+				valueAccuracy,
+			</if>
+			<if test="authoritativeSystemSource != null">
+				authoritativeSystemSource,
+			</if>
+			<if test="basisMaking != null">
+				basisMaking,
+			</if>
+			<if test="staResponsibilityDepartment != null">
+				staResponsibilityDepartment,
+			</if>
+			<if test="minGenerationFrequency != null">
+				minGenerationFrequency,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+		
+			<if test="createPersonName != null">
+				createPersonName,
+			</if>
+			<if test="createPersonId != null">
+				createPersonId,
+			</if>
+			<if test="createDate != null">
+				createDate,
+			</if>
+			<if test="lastModifyPersonId != null">
+				lastModifyPersonId,
+			</if>
+			<if test="lastModifyPersonName != null">
+				lastModifyPersonName,
+			</if>
+			<if test="lastModifyDate != null">
+				lastModifyDate,
+			</if>
+			<if test="isDel != null">
+				isDel
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="staCategory != null">
+				#{staCategory},
+			</if>
+			<if test="indicatorStaNum != null">
+				#{indicatorStaNum},
+			</if>
+			<if test="staTheme != null">
+				#{staTheme},
+			</if>
+			<if test="staClass != null">
+				#{staClass},
+			</if>
+			<if test="staSubclass != null">
+				#{staSubclass},
+			</if>
+			<if test="indicatorCname != null">
+				#{indicatorCname},
+			</if>
+			<if test="indicatorCalias != null">
+				#{indicatorCalias},
+			</if>
+			<if test="indicatorEname != null">
+				#{indicatorEname},
+			</if>
+			<if test="relevantIndicatorSta != null">
+				#{relevantIndicatorSta},
+			</if>
+			<if test="relevantBasicDataSta != null">
+				#{relevantBasicDataSta},
+			</if>
+			<if test="businessDefinition != null">
+				#{businessDefinition},
+			</if>
+			<if test="statisticalCaliber != null">
+				#{statisticalCaliber},
+			</if>
+			<if test="businessRules != null">
+				#{businessRules},
+			</if>
+			<if test="publicStatisticalRules != null">
+				#{publicStatisticalRules},
+			</if>
+			<if test="indicatorFormat != null">
+				#{indicatorFormat},
+			</if>
+			<if test="commonUnit != null">
+				#{commonUnit},
+			</if>
+			<if test="dataLength != null">
+				#{dataLength},
+			</if>
+			<if test="ranges != null">
+				#{ranges},
+			</if>
+			<if test="valueAccuracy != null">
+				#{valueAccuracy},
+			</if>
+			<if test="authoritativeSystemSource != null">
+				#{authoritativeSystemSource},
+			</if>
+			<if test="basisMaking != null">
+				#{basisMaking},
+			</if>
+			<if test="staResponsibilityDepartment != null">
+				#{staResponsibilityDepartment},
+			</if>
+			<if test="minGenerationFrequency != null">
+				#{minGenerationFrequency},
+			</if>
+			<if test="version != null">
+				#{version},
+			</if>
+
+			<if test="createPersonName != null">
+				#{createPersonName},
+			</if>
+			<if test="createPersonId != null">
+				#{createPersonId},
+			</if>
+			<if test="createDate != null">
+				#{createDate},
+			</if>
+			<if test="lastModifyPersonId != null">
+				#{lastModifyPersonId},
+			</if>
+			<if test="lastModifyPersonName != null">
+				#{lastModifyPersonName},
+			</if>
+			<if test="lastModifyDate != null">
+				#{lastModifyDate},
+			</if>
+			<if test="isDel != null">
+				#{isDel}
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 修改信息 -->
+	<update id="updateIndicatorStaInfoById"
+		parameterType="com.gzw.entity.datasta.IndicatorSta">
+		update indicator_standard
+		<set>
+			<if test="staCategory != null">
+				staCategory = #{staCategory},
+			</if>
+			<if test="indicatorStaNum != null">
+				indicatorStaNum = #{indicatorStaNum},
+			</if>
+			<if test="staTheme != null">
+				staTheme = #{staTheme},
+			</if>
+			<if test="staClass != null">
+				staClass = #{staClass},
+			</if>
+			<if test="staSubclass != null">
+				staSubclass = #{staSubclass},
+			</if>
+			<if test="indicatorCname != null">
+				indicatorCname = #{indicatorCname},
+			</if>
+			<if test="indicatorCalias != null">
+				indicatorCalias = #{indicatorCalias},
+			</if>
+			<if test="indicatorEname != null">
+				indicatorEname = #{indicatorEname},
+			</if>
+			<if test="relevantIndicatorSta != null">
+				relevantIndicatorSta = #{relevantIndicatorSta},
+			</if>
+			<if test="relevantBasicDataSta != null">
+				relevantBasicDataSta = #{relevantBasicDataSta},
+			</if>
+			<if test="businessDefinition != null">
+				businessDefinition = #{businessDefinition},
+			</if>
+			<if test="statisticalCaliber != null">
+				statisticalCaliber = #{statisticalCaliber},
+			</if>
+			<if test="businessRules != null">
+				businessRules = #{businessRules},
+			</if>
+			<if test="publicStatisticalRules != null">
+				publicStatisticalRules = #{publicStatisticalRules},
+			</if>
+			<if test="indicatorFormat != null">
+				indicatorFormat = #{indicatorFormat},
+			</if>
+			<if test="commonUnit != null">
+				commonUnit = #{commonUnit},
+			</if>
+			<if test="dataLength != null">
+				dataLength = #{dataLength},
+			</if>
+			<if test="ranges != null">
+				ranges = #{ranges},
+			</if>
+			<if test="valueAccuracy != null">
+				valueAccuracy = #{valueAccuracy},
+			</if>
+			<if test="authoritativeSystemSource != null">
+				authoritativeSystemSource = #{authoritativeSystemSource},
+			</if>
+			<if test="basisMaking != null">
+				basisMaking = #{basisMaking},
+			</if>
+			<if test="staResponsibilityDepartment != null">
+				staResponsibilityDepartment = #{staResponsibilityDepartment},
+			</if>
+			<if test="minGenerationFrequency != null">
+				minGenerationFrequency = #{minGenerationFrequency},
+			</if>
+			<if test="version != null">
+				version = #{version},
+			</if>
+			
+			<if test="createPersonName != null">
+				createPersonName = #{createPersonName},
+			</if>
+			<if test="createPersonId != null">
+				createPersonId = #{createPersonId},
+			</if>
+			<if test="createDate != null">
+				createDate = #{createDate},
+			</if>
+			<if test="lastModifyPersonId != null">
+				lastModifyPersonId = #{lastModifyPersonId},
+			</if>
+			<if test="lastModifyPersonName != null">
+				lastModifyPersonName = #{lastModifyPersonName},
+			</if>
+			<if test="lastModifyDate != null">
+				lastModifyDate = #{lastModifyDate},
+			</if>
+			<if test="isDel != null">
+				isDel = #{isDel},
+			</if>
+			
+		</set>
+		where id = #{id}
+	</update>
+</mapper>

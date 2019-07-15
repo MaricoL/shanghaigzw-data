@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzw.dao.dataresource.CatalogInformationItemDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gzw.entity.dataresource.CatalogInformationItem">
+        <id column="id" property="id" />
+        <result column="information_resource_identifier" property="informationResourceIdentifier" />
+        <result column="information_item_identifier" property="informationItemIdentifier" />
+        <result column="chinese_name" property="chineseName" />
+        <result column="english_name" property="englishName" />
+        <result column="explanatory_definition" property="explanatoryDefinition" />
+        <result column="data_type" property="dataType" />
+        <result column="data_length" property="dataLength" />
+        <result column="shared_type" property="sharedType" />
+        <result column="sharing_mode" property="sharingMode" />
+        <result column="department_name" property="departmentName" />
+        <result column="is_Del" property="isDel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, information_resource_identifier, information_item_identifier, chinese_name, english_name, explanatory_definition, data_type, data_length, shared_type, sharing_mode, department_name, is_Del
+    </sql>
+    
+    
+    <select id="listByInformationResourceIdentifier" parameterType="java.lang.String" resultType="com.gzw.entity.dataresource.CatalogInformationItem">
+    	select <include refid="Base_Column_List"/>
+    	from catalog_information_item
+    	where information_resource_identifier = #{informationResourceIdentifier}
+    </select>
+
+</mapper>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gzw.dao.system.SysRoleDao" >
+  <resultMap id="RoleMap" type="com.gzw.entity.system.SysRole" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="createPersonID" property="createPersonID" jdbcType="VARCHAR" />
+    <result column="createPersonName" property="createPersonName" jdbcType="VARCHAR" />
+    <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+    <result column="lastModifyPersonId" property="lastModifyPersonId" jdbcType="VARCHAR" />
+    <result column="lastModifyPersonName" property="lastModifyPersonName" jdbcType="VARCHAR" />
+    <result column="lastModifyDate" property="lastModifyDate" jdbcType="VARCHAR" />
+    <result column="roleName" property="roleName" jdbcType="VARCHAR" />
+    <result column="roleDescription" property="roleDescription" jdbcType="VARCHAR" />
+    <result column="isDel" property="isDel" jdbcType="BIT" />
+    <result column="rolenum" property="rolenum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, createPersonID, createPersonName, createDate, lastModifyPersonId, lastModifyPersonName, 
+    lastModifyDate, roleName, roleDescription, isDel,rolenum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="RoleMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where ID = #{ID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey1" parameterType="java.lang.Integer" >
+    delete from sys_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 注销角色信息 -->
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+		update sys_role set isDel = 1
+		where id =#{id,jdbcType=INTEGER}
+	</update>
+  
+ <!--  <insert id="addRole" parameterType="com.softline.entity.system.SysRole" >
+    insert into sys_role (id, createPersonID, createPersonName, 
+      createDate, lastModifyPersonId, lastModifyPersonName, 
+      lastModifyDate, roleName, roleDescription, 
+      isDel)
+    values (#{id,jdbcType=INTEGER}, #{createpersonid,jdbcType=VARCHAR}, #{createpersonname,jdbcType=VARCHAR}, 
+      #{createdate,jdbcType=VARCHAR}, #{lastmodifypersonid,jdbcType=VARCHAR}, #{lastmodifypersonname,jdbcType=VARCHAR}, 
+      #{lastmodifydate,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{roleDescription,jdbcType=VARCHAR}, 
+      #{isdel,jdbcType=BIT})
+  </insert> -->
+  <!-- <insert id="insertSelective" parameterType="com.softline.entity.system.SysRole" > -->
+  <insert id="addRole" parameterType="com.gzw.entity.system.SysRole" >
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createPersonID != null" >
+        createPersonID,
+      </if>
+      <if test="createPersonName != null" >
+        createPersonName,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="lastModifyPersonId != null" >
+        lastModifyPersonId,
+      </if>
+      <if test="lastModifyPersonName != null" >
+        lastModifyPersonName,
+      </if>
+      <if test="lastModifyDate != null" >
+        lastModifyDate,
+      </if>
+      <if test="roleName != null" >
+        roleName,
+      </if>
+      <if test="roleDescription != null" >
+        roleDescription,
+      </if>
+      <if test="isDel != null" >
+        isDel,
+      </if>
+      <if test="rolenum != null" >
+        rolenum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createPersonID != null" >
+        #{createPersonID,jdbcType=VARCHAR},
+      </if>
+      <if test="createPersonName != null" >
+        #{createPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyPersonId != null" >
+        #{lastModifyPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyPersonName != null" >
+        #{lastModifyPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyDate != null" >
+        #{lastModifyDate,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDescription != null" >
+        #{roleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=BIT},
+      </if>
+      <if test="rolenum != null" >
+        #{rolenum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gzw.entity.system.SysRole" >
+    update sys_role
+    <set >
+      <if test="createPersonID != null" >
+        createPersonID = #{createPersonID,jdbcType=VARCHAR},
+      </if>
+      <if test="createpersonname != null" >
+        createPersonName = #{createpersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        createDate = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="lastmodifypersonid != null" >
+        lastModifyPersonId = #{lastmodifypersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastmodifypersonname != null" >
+        lastModifyPersonName = #{lastmodifypersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastmodifydate != null" >
+        lastModifyDate = #{lastmodifyDate,jdbcType=VARCHAR},
+      </if>
+      <if test="rolename != null" >
+        roleName = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roledescription != null" >
+        roleDescription = #{roleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        isDel = #{isDel,jdbcType=BIT},
+      </if>
+       <if test="rolenum != null" >
+        rolenum = #{rolenum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateRole" parameterType="com.gzw.entity.system.SysRole" >
+    update sys_role
+    set createPersonID = #{createPersonID,jdbcType=VARCHAR},
+      createPersonName = #{createPersonName,jdbcType=VARCHAR},
+      createDate = #{createDate,jdbcType=VARCHAR},
+      lastModifyPersonId = #{lastModifyPersonId,jdbcType=VARCHAR},
+      lastModifyPersonName = #{lastModifyPersonName,jdbcType=VARCHAR},
+      lastModifyDate = #{lastModifyDate,jdbcType=VARCHAR},
+      roleName = #{roleName,jdbcType=VARCHAR},
+      roleDescription = #{roleDescription,jdbcType=VARCHAR},
+      isDel = #{isDel,jdbcType=BIT},
+      rolenum = #{rolenum,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <!-- 根据查询条件获取用户列表 -->
+	<select id="getRolesByConditions" resultMap="RoleMap" parameterType="com.gzw.entity.system.SysRole">
+    	select * from sys_role t 
+    	<where>
+    		<if test="roleName != null and  roleName != ''">
+    			<bind name="roleName" value="'%' + roleName + '%'" />
+    			t.roleName like #{roleName} and
+    		</if>
+    		  t.isDel = 0
+    	</where>
+    </select>
+    
+     <!-- 根据角色名称获取角色 -->
+	<select id="getRoleByName" resultMap="RoleMap" parameterType="com.gzw.entity.system.SysRole">
+    	select * from sys_role t where t.roleName = #{roleName} and t.isDel = 0
+    	<!-- select * from sys_role t 
+    	<where>
+    		<if test="roleName != null and  roleName != ''">
+    			<bind name="roleName" value="'%' + roleName + '%'" />
+    			t.roleName = #{roleName}and t.isDel = 0
+    		</if>
+    	</where> -->
+    </select>
+</mapper>

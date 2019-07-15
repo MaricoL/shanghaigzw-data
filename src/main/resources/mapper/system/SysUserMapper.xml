@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gzw.dao.system.UserDao" >
+    
+    <resultMap id="userMap" type="com.gzw.entity.system.SysUser" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="account" property="account" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_sex" property="userSex" jdbcType="INTEGER" />
+        <result column="comp_uscd" property="compUscd" jdbcType="VARCHAR" />
+        <result column="flag" property="flag" jdbcType="INTEGER" />
+        <result column="createPersonName" property="createPersonName" jdbcType="VARCHAR" />
+        <result column="createPersonId" property="createPersonId" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+        <result column="lastModifyPersonId" property="lastModifyPersonId" jdbcType="VARCHAR" />
+        <result column="lastModifyPersonName" property="lastModifyPersonName" jdbcType="VARCHAR" />
+        <result column="lastModifyDate" property="lastModifyDate" jdbcType="VARCHAR" />
+        <result column="is_del" property="isDel" jdbcType="VARCHAR" />
+        
+        <result column="company_Name" property="companyName" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <!-- 根据查询条件获取用户列表 -->
+    <select id="getUsersByConditions" resultMap="userMap" parameterType="com.gzw.entity.system.SysUser">
+    	select t.* from sys_user t 
+    	<where>
+    		t.is_del = 0
+    		<if test="account != null and  account != ''">
+    			<bind name="account" value="'%' + account + '%'" />
+    			and t.account like #{account}
+    		</if>
+    		<if test="userName != null and  userName != ''">
+    			<bind name="userName" value="'%' + userName + '%'" />
+    			and t.user_name like #{userName}
+    		</if>
+    		<if test="flag != null">
+    			and t.flag = #{flag}
+    		</if>
+    	</where>
+    </select>
+    
+    <!-- 根据查询条件获取用户列表总数 -->
+    <select id="countUsersByConditions" resultType="java.lang.Integer" parameterType="com.gzw.entity.system.SysUser">
+    	select count(0) from sys_user t 
+    	<where>
+    		t.is_del = 0
+    		<if test="account != null and  account != ''">
+    			<bind name="account" value="'%' + account + '%'" />
+    			and t.account like #{account}
+    		</if>
+    		<if test="userName != null and  userName != ''">
+    			<bind name="userName" value="'%' + userName + '%'" />
+    			and t.user_name like #{userName}
+    		</if>
+    		<if test="flag != null">
+    			and t.flag = #{flag}
+    		</if>
+    	</where>
+    </select>
+    
+    <!-- 添加用户 -->
+    <insert id="addUser" parameterType="com.gzw.entity.system.SysUser">
+    	 insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="account != null" >
+                account,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+            <if test="userName != null" >
+                user_name,
+            </if>
+            <if test="userSex != null" >
+                user_sex,
+            </if>
+            <if test="compUscd != null" >
+                comp_uscd,
+            </if>
+            <if test="flag != null" >
+                flag,
+            </if>
+            <if test="createPersonName != null" >
+                createPersonName,
+            </if>
+            <if test="createPersonId != null" >
+                createPersonId,
+            </if>
+            <if test="createDate != null" >
+                createDate,
+            </if>
+            <if test="lastModifyPersonId != null" >
+                lastModifyPersonId,
+            </if>
+            <if test="lastModifyPersonName != null" >
+                lastModifyPersonName,
+            </if>
+            <if test="lastModifyDate != null" >
+                lastModifyDate,
+            </if>
+            <if test="isDel != null" >
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="account != null" >
+                #{account},
+            </if>
+            <if test="password != null" >
+                #{password},
+            </if>
+            <if test="userName != null" >
+                #{userName},
+            </if>
+            <if test="userSex != null" >
+                #{userSex},
+            </if>
+            <if test="compUscd != null" >
+                #{compUscd},
+            </if>
+            <if test="flag != null" >
+                #{flag},
+            </if>
+            <if test="createPersonName != null" >
+                #{createPersonName},
+            </if>
+            <if test="createPersonId != null" >
+                #{createPersonId},
+            </if>
+            <if test="createDate != null" >
+                #{createDate},
+            </if>
+            <if test="lastModifyPersonId != null" >
+                ${lastModifyPersonId},
+            </if>
+            <if test="lastModifyPersonName != null" >
+                #{lastModifyPersonName},
+            </if>
+            <if test="lastModifyDate != null" >
+                #{lastModifyDate},
+            </if>
+            <if test="isDel != null" >
+                #{isDel},
+            </if>
+        </trim>
+    </insert>
+    
+    <!-- 修改用户 -->
+    <update id="updateUser" parameterType="com.gzw.entity.system.SysUser">
+    	 update sys_user
+        <set>
+            <if test="account != null" >
+                account = #{account},
+            </if>
+            <if test="password != null" >
+                password = #{password},
+            </if>
+            <if test="userName != null" >
+                user_name = #{userName},
+            </if>
+            <if test="userSex != null" >
+                user_sex = #{userSex},
+            </if>
+            <if test="compUscd != null" >
+                comp_uscd = #{compUscd},
+            </if>
+            <if test="flag != null" >
+                flag = #{flag},
+            </if>
+            <if test="createPersonName != null" >
+                createPersonName = #{createPersonName},
+            </if>
+            <if test="createPersonId != null" >
+                createPersonId = #{createPersonId},
+            </if>
+            <if test="createDate != null" >
+                createDate = #{createDate},
+            </if>
+            <if test="lastModifyPersonId != null" >
+                lastModifyPersonId = #{lastModifyPersonId},
+            </if>
+            <if test="lastModifyPersonName != null" >
+                lastModifyPersonName = #{lastModifyPersonName},
+            </if>
+            <if test="lastModifyDate != null" >
+                lastModifyDate = #{lastModifyDate},
+            </if>
+            <if test="isDel != null" >
+                is_del = #{isDel},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <update id="delUser" parameterType="com.gzw.entity.system.SysUser">
+    	update sys_user set is_del = 1
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <!-- 根据ID查找用户  -->
+	<select id="getUserById" resultMap="userMap" parameterType="java.lang.Integer">
+		select * from sys_user t where t.id = #{id}
+	</select> 
+	
+	<!-- 根据账号查找用户 -->
+	<select id="getUserByAccount" resultMap="userMap" parameterType="java.lang.String">
+		select * from sys_user t where t.account = #{account}
+	</select>
+	
+	<!-- 根据用户账户获取角色权限 -->
+	<select id="getRolesByUserId" resultType="java.lang.String" parameterType="java.lang.Integer">
+		select role.rolenum from sys_role role
+			left outer join sys_userrole userrole on userrole.role_id = role.id
+		where userrole.user_id = #{id} 
+	</select>
+	
+
+	   
+</mapper>

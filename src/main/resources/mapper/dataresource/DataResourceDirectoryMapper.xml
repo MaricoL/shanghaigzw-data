@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzw.dao.dataresource.DataResourceDirectoryDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gzw.entity.dataresource.DataResourceDirectory">
+        <id column="id" property="id" />
+        <result column="information_resource_identifier" property="informationResourceIdentifier" />
+        <result column="information_resource_name" property="informationResourceName" />
+        <result column="parent_information_resource_identifier" property="parentInformationResourceIdentifier" />
+        <result column="information_resource_type" property="informationResourceType" />
+        <result column="information_resource_abstract" property="informationResourceAbstract" />
+        <result column="department" property="department" />
+        <result column="department_code" property="departmentCode" />
+        <result column="shared_type" property="sharedType" />
+        <result column="shared_method" property="sharedMethod" />
+        <result column="shared_update_frequenc" property="sharedUpdateFrequenc" />
+        <result column="shared_conditions" property="sharedConditions" />
+        <result column="belong_system_name" property="belongSystemName" />
+        <result column="belong_system_code" property="belongSystemCode" />
+        <result column="belong_file_name" property="belongFileName" />
+        <result column="belong_system_state" property="belongSystemState" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, information_resource_identifier, information_resource_name, parent_information_resource_identifier, information_resource_type, information_resource_abstract, department, department_code, shared_type, shared_method, shared_update_frequenc, shared_conditions, belong_system_name, belong_system_code, belong_file_name, belong_system_state
+    </sql>
+    
+    <select id="listDataResourceDirectory" resultType="com.gzw.entity.dataresource.DataResourceDirectory">
+    	select * from data_resource_directory;
+    </select>
+
+	<select id="listSecondDataResourceDirectory" resultType="com.gzw.entity.dataresource.TreeNode">
+		SELECT 
+			information_resource_identifier as 'id',
+			case parent_information_resource_identifier WHEN '/' then department_code ELSE parent_information_resource_identifier END as 'pid',
+			information_resource_name as 'name',
+			case parent_information_resource_identifier WHEN '/' then '2' ELSE '3' END as 'level'
+		FROM `data_resource_directory` ;
+    </select>
+
+</mapper>

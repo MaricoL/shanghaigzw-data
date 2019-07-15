@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gzw.dao.datasta.BasicDataStaDao">
+	<resultMap id="basicDataStaMap"
+		type="com.gzw.entity.datasta.BasicDataSta">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="standardNum" property="standardNum"
+			jdbcType="VARCHAR" />
+		<result column="standardName" property="standardName"
+			jdbcType="VARCHAR" />
+		<result column="codeValue" property="codeValue"
+			jdbcType="VARCHAR" />
+			<result column="codeMeaning" property="codeMeaning"
+			jdbcType="VARCHAR" />
+		<result column="remark" property="remark"
+			jdbcType="VARCHAR" />
+		
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="createPersonName" property="createPersonName"
+			jdbcType="VARCHAR" />
+		<result column="createPersonId" property="createPersonId"
+			jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate"
+			jdbcType="VARCHAR" />
+		<result column="lastModifyPersonId"
+			property="lastModifyPersonId" jdbcType="VARCHAR" />
+		<result column="lastModifyPersonName"
+			property="lastModifyPersonName" jdbcType="VARCHAR" />
+		<result column="lastModifyDate" property="lastModifyDate"
+			jdbcType="VARCHAR" />
+		<result column="isDel" property="isDel" jdbcType="BIT" />
+
+	</resultMap>
+	<!-- 删除信息 -->
+	<update id="deleteBasicDataStaInfoById"
+		parameterType="java.lang.Integer">
+		update basic_datasta t
+		<set>isDel=1
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 根据查询条件获取产权基本信息列表 -->
+	<select id="getBasicDataStaInfoByConditions"
+		resultMap="basicDataStaMap"
+		parameterType="com.gzw.entity.datasta.BasicDataSta">
+		select * from basic_datasta t 
+		<where>
+			<!-- t.isDel = 0 and t.isHistory = '0' and t.isLastest = '1' -->
+			<if test="standardNum != null and  standardNum != ''">
+				<bind name="standardNum" value="standardNum" />
+				and t.standardNum = #{standardNum}
+			</if>
+			<if test="codeValue != null and  codeValue != ''">
+				<bind name="codeValue" value="codeValue" />
+				and t.codeValue = #{codeValue}
+			</if>
+			<if test="isDel != null">
+				<bind name="isDel" value="isDel" />
+				and t.isDel = #{isDel}
+			</if>
+		</where>
+		<!-- order by t.createDate DESC -->
+		order by t.id ASC 
+	</select>
+
+	<!-- 根据ID查找信息 -->
+	<select id="getBasicDataStaInfoById"
+		resultMap="basicDataStaMap" parameterType="java.lang.Integer">
+		select * from
+		basic_datasta t where t.id = #{id} and t.isDel = 0
+	</select>
+
+ 
+	<select id="getBasicDataStaExistCheck" resultMap="basicDataStaMap"
+		parameterType="com.gzw.entity.datasta.BasicDataSta">
+		select * from
+		basic_datasta t
+		<where>
+			t.isDel = 0
+			<if test="standardNum != null and  standardNum != ''">
+				<bind name="standardNum" value="standardNum" />
+				and t.standardNum = #{standardNum}
+			</if>
+			<if test="standardName != null and  standardName != ''">
+				<bind name="standardName" value="standardName" />
+				and t.standardName = #{standardName}
+			</if>
+			<!-- <if test="id != null and  id != ''">
+				<bind name="id" value="id" />
+				and t.id != #{id}
+			</if> -->
+		</where>
+	</select>
+
+	<!-- 添加信息 -->
+	<insert id="addBasicDataStaInfo" useGeneratedKeys="true"
+		keyProperty="id"
+		parameterType="com.gzw.entity.datasta.BasicDataSta">
+		insert into basic_datasta
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="standardNum != null">
+				standardNum,
+			</if>
+			<if test="standardName != null">
+				standardName,
+			</if>
+			<if test="codeValue != null">
+				codeValue,
+			</if>
+			<if test="codeMeaning != null">
+				codeMeaning,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+		
+			<if test="createPersonName != null">
+				createPersonName,
+			</if>
+			<if test="createPersonId != null">
+				createPersonId,
+			</if>
+			<if test="createDate != null">
+				createDate,
+			</if>
+			<if test="lastModifyPersonId != null">
+				lastModifyPersonId,
+			</if>
+			<if test="lastModifyPersonName != null">
+				lastModifyPersonName,
+			</if>
+			<if test="lastModifyDate != null">
+				lastModifyDate,
+			</if>
+			<if test="isDel != null">
+				isDel
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="standardNum != null">
+				#{standardNum},
+			</if>
+			<if test="standardName != null">
+				#{standardName},
+			</if>
+			<if test="codeValue != null">
+				#{codeValue},
+			</if>
+			<if test="codeMeaning != null">
+				#{codeMeaning},
+			</if>
+			<if test="remark != null">
+				#{remark},
+			</if>
+			
+			<if test="version != null">
+				#{version},
+			</if>
+
+			<if test="createPersonName != null">
+				#{createPersonName},
+			</if>
+			<if test="createPersonId != null">
+				#{createPersonId},
+			</if>
+			<if test="createDate != null">
+				#{createDate},
+			</if>
+			<if test="lastModifyPersonId != null">
+				#{lastModifyPersonId},
+			</if>
+			<if test="lastModifyPersonName != null">
+				#{lastModifyPersonName},
+			</if>
+			<if test="lastModifyDate != null">
+				#{lastModifyDate},
+			</if>
+			<if test="isDel != null">
+				#{isDel}
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 修改信息 -->
+	<update id="updateBasicDataStaInfoById"
+		parameterType="com.gzw.entity.datasta.BasicDataSta">
+		update basic_datasta
+		<set>
+			<if test="standardNum != null">
+				standardNum = #{standardNum},
+			</if>
+			<if test="standardName != null">
+				standardName = #{standardName},
+			</if>
+			<if test="codeValue != null">
+				codeValue = #{codeValue},
+			</if>
+			<if test="codeMeaning != null">
+				codeMeaning = #{codeMeaning},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+			
+			<if test="version != null">
+				version = #{version},
+			</if>			
+			<if test="createPersonName != null">
+				createPersonName = #{createPersonName},
+			</if>
+			<if test="createPersonId != null">
+				createPersonId = #{createPersonId},
+			</if>
+			<if test="createDate != null">
+				createDate = #{createDate},
+			</if>
+			<if test="lastModifyPersonId != null">
+				lastModifyPersonId = #{lastModifyPersonId},
+			</if>
+			<if test="lastModifyPersonName != null">
+				lastModifyPersonName = #{lastModifyPersonName},
+			</if>
+			<if test="lastModifyDate != null">
+				lastModifyDate = #{lastModifyDate},
+			</if>
+			<if test="isDel != null">
+				isDel = #{isDel},
+			</if>
+			
+		</set>
+		where id = #{id}
+	</update>
+</mapper>

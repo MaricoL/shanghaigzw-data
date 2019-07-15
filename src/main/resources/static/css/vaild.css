@@ -1,0 +1,68 @@
+/* valid.js */
+.v-confirm-tip {
+	position: absolute;
+	white-space: nowrap;
+	font-size: 14px;
+	line-height: 20px;
+	background-color: #fff;
+	color: #666;
+	text-align: left;
+	border: 1px solid #ddd;
+	z-index: 1;
+	padding: 2px 4px;
+	box-sizing: border-box;
+	background-color: #f2f2f2;
+    box-shadow: 0 2px 7px rgba(128, 128, 128, 0.43);
+}
+
+.v-confirm-tip .tip-item {
+	display: inline-block;
+	vertical-align: top;
+	padding: 2px 6px;
+	/*white-space: nowrap;*/
+}
+
+.v-confirm-tip .tip-item [no] {
+	display: inline-block;
+	width: 12px;
+	font-size: 18px;
+	line-height: 19px;
+	color: red;
+	margin-right: 2px;
+	vertical-align: middle;
+	font-weight: bold;
+}
+
+.v-confirm-tip .tip-item [ok] {
+	display: none;
+	color: green;
+	width: 12px;
+	font-size: 18px;
+	margin-right: 2px;
+	vertical-align: middle;
+	font-weight: bold;
+}
+
+.v-confirm-tip .tip-item[ok] [no] {
+	display: none;
+}
+
+.v-confirm-tip .tip-item[ok] [ok] {
+	display: inline-block;
+}
+
+.v-confirm-tip span {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+/* 输入项通用出错边框颜色 */
+input.error,
+textarea.error {
+	border-color: red !important;
+}
+
+input.error::placeholder,
+textarea.error::placeholder  {
+	color: red;
+}

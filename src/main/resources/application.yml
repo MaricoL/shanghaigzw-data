@@ -1,0 +1,36 @@
+# 数据库敏感内容加密
+jasypt:
+  encryptor:
+    password: shanghaigzw
+    
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.gzw.entity
+  configuration:
+    map-underscore-to-camel-case: true #开启驼峰命名
+
+
+# 端口配置  
+server:
+  port: 8763
+  servlet:
+    context-path: /shanghaigzw-data
+    session:
+      timeout: 3600s
+    jsp:
+      init-parameters:
+        development: true
+        
+# 整合jsp  
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  profiles:
+    active: dev
+#文件上传
+  servlet:
+    multipart:
+      max-file-size: 30Mb      
+      max-request-size: 200Mb   

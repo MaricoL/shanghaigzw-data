@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gzw.dao.file.SysFileDao" >
+  <resultMap id="BaseResultMap" type="com.gzw.entity.file.SysFile" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="release_id" property="releaseId" jdbcType="INTEGER" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="file_path" property="filePath" jdbcType="VARCHAR" />
+    <result column="file_remark" property="fileRemark" jdbcType="VARCHAR" />
+    <result column="file_uuid" property="fileUuid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type_id, release_id, file_name, file_path, file_remark, file_uuid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_file
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_file
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gzw.entity.file.SysFile" >
+    insert into sys_file (id, type_id, release_id, 
+      file_name, file_path, file_remark, 
+      file_uuid)
+    values (#{id,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{releaseId,jdbcType=INTEGER}, 
+      #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{fileRemark,jdbcType=VARCHAR}, 
+      #{fileUuid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gzw.entity.file.SysFile" >
+    insert into sys_file
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="releaseId != null" >
+        release_id,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+      <if test="filePath != null" >
+        file_path,
+      </if>
+      <if test="fileRemark != null" >
+        file_remark,
+      </if>
+      <if test="fileUuid != null" >
+        file_uuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="releaseId != null" >
+        #{releaseId,jdbcType=INTEGER},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileRemark != null" >
+        #{fileRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUuid != null" >
+        #{fileUuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gzw.entity.file.SysFile" >
+    update sys_file
+    <set >
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="releaseId != null" >
+        release_id = #{releaseId,jdbcType=INTEGER},
+      </if>
+      <if test="fileName != null" >
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileRemark != null" >
+        file_remark = #{fileRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUuid != null" >
+        file_uuid = #{fileUuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gzw.entity.file.SysFile" >
+    update sys_file
+    set type_id = #{typeId,jdbcType=INTEGER},
+      release_id = #{releaseId,jdbcType=INTEGER},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      file_remark = #{fileRemark,jdbcType=VARCHAR},
+      file_uuid = #{fileUuid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByUUID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_file
+    where file_uuid = #{fileUuid,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="getListFile" 
+    resultMap="BaseResultMap" 
+    parameterType="com.gzw.entity.file.SysFile" >
+   <!--  select * from (SELECT * FROM sys_file ORDER BY  id DESC) t  -->
+    
+   <!--  SELECT *FROM (select * from (SELECT * FROM sys_file  ) a  WHERE a.type_id='98'   ORDER BY  id desc ) t  
+  GROUP BY t.release_id -->
+  SELECT * FROM sys_file   WHERE type_id=98
+  
+  
+  </select>
+  
+  
+</mapper>
